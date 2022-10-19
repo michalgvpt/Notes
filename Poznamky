@@ -1,0 +1,40 @@
+ def uloha1(ret:str):
+     half=len(ret)//2
+     if len(ret)%2==1:
+         half+=1
+     #1 cez rezy
+     ph=ret[0:half].upper()
+     sh=ret[half::]
+     #2 bez rezov
+     ph=''
+     sh=''
+     for i in range(0,half):
+         ph+=ret[i].upper()
+     for i in range(half, len(ret))
+         sh+=ret[i].lower()
+     return ph+sh
+
+ print(uloha1('jozo'))
+ print(uloha1('tomas'))
+
+ def pigspeech(word:str):
+     newword=''
+     if len(word)>3:
+         newword=word[1::]+word[0]
+         newword+='ya'
+     else:
+         newword=word
+     return newword
+
+ print(pigspeech('dudo'))
+
+def accum(word:str):
+    newword=''
+    for i in range(len(word)):
+        temp=word[i]*(i+1)
+        temp=temp.capitalize()
+        temp+='-'
+        newword+=temp
+    return newword[:-1:]
+
+print(accum('tomas'))
