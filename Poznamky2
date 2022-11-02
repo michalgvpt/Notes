@@ -1,0 +1,54 @@
+#parsing
+#booling True alebo False
+#status = True
+#ns = ''
+ts='jano<jashdfjhd>sdfjksdjf<fero><miso>dsjhdjfh<fdfd>h'
+def parsing(text:str)->str:
+    status=True
+    ns=''
+    for i in text:
+         if i == '<':
+             status=False
+         if i == '>':
+             status=True
+         if status == True:
+             if i != '>':
+                 ns+=i
+             else:
+                 ns+=''
+     return ns
+
+
+    for i in text:
+        if i=='<':
+            status=False
+        if status:
+            ns+=i
+        if i=='>':
+            status=True
+    return ns
+
+print(parsing(ts))
+
+----------------------------------------------------------------------------
+
+#kodovanie
+
+#sifrovanie-simetricke(jeden kluc) a asymetricke(public a private)
+#caesar cipher
+
+#zoberem znak premenim ho na cislo(ord) odpocitam 97 pripocitam posun potom %26 potom pripocitam 97 a toto cislo premenim na znak(chr)
+def Caesar_encoder(text:str,shift:int)->str:
+    ret=''
+    for i in text:
+        i=chr((ord(i)-97+shift)%26+97)
+        ret+=i
+    return ret
+
+print(Caesar_encoder(input('Text to code: '),int(input('Shift: '))))
+
+#encoder bude - nie +
+
+#Du - 'Ahoj svet','kvet'
+text,key
+encode aj decode
