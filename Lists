@@ -1,0 +1,71 @@
+#lists are mutable
+#struktura z viacero hodnotamy roznych typov
+#v liste moze byt dalsi list
+#pozicie-indexy
+#zoz=[] or zoz=list()
+#zoz.append(5) - adds to the list
+#zoz.sort/pop - usporiada/vyrebe z listu a returne
+
+--------------------------------------------------------------
+
+#mps='Jozo Fero jano miso'
+#zoz=mps.split(' ')
+#print(zoz)
+#print(zoz[0][1])
+
+------------------------------------------------------------------
+
+#import random
+#list=[]
+#for i in range(10):
+#    list.append(random.randrange(0,21))
+#print(list)
+#print(*list)
+
+#maximum=list[0]
+#position=0
+#for i in range(1,len(list)):
+#    if list[i]>maximum:
+#        maximum=list[i]
+#        position=i
+#print('Biggest element is: ',maximum,'Position is: ',position)
+
+----------------------------------------------------------------------------
+
+#intianlize premennej
+
+#even=0
+#odd=0
+ 
+#for i in range(0,len(list)):
+#    if list[i]%2==0:
+#        even+=1
+#    else:
+#        odd+=1
+        
+#for i in list:
+#    if i%2==0:
+#        even+=1
+#    else:
+#        odd+=1
+
+#print('Even: ',even,'Odd: ',odd)
+
+---------------------------------------------------------------------------------------
+
+#evenpos=0
+#for i in range(0,len(list)):
+#    if list[i]%2==0 and i%2==0:
+#        evenpos+=1
+
+#print('Number of even numbers on even position: ',evenpos)
+
+----------------------------------------------------------------------------------
+
+list1[2,7,10,16,58]
+list2=[15,16,18,20]
+list=[ ]
+counter=0
+def merge(list1:list,list2:list)->list:
+    while poc <len(list):
+    
