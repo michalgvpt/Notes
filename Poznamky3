@@ -1,0 +1,57 @@
+
+# import random
+# list=[]
+# for i in range(10):
+#     list.append(random.randrange(0,100))
+# print(list)
+#
+# #vyber nahodny prvok
+# index=random.randrange(0,10)
+# print(list[index])
+#
+# #random vyber
+# print(random.choice(list))
+#
+# #1. sposob usporiadania - vytvori novy utrideny zoznam
+# print(list)
+# new_list=sorted(list)
+# print(new_list)
+#
+# #2.sposob usporiadania - utriedy samostatny zoznam
+# list.sort()
+# print(list)
+
+#---------------------------------------------------------------------------
+
+# import random
+# list=[]
+# for i in range(10):
+#     list.append(random.randrange(0,50))
+# #algoritmus ako sorted ale w/0 it
+# #list=[22,10,15,1,8]
+# def findmaximum(index:int)->int:
+#     max_value=list[index]
+#     max_index=index
+#     for i in range(index,len(list)):
+#         if list[i]>max_value:
+#             max_value=list[i]
+#             max_index=i
+#     return max_index
+#
+# print(*list)
+# print(findmaximum(0))
+#
+# for i in range(len(list)):
+#     max_index=findmaximum(i)
+#     list[i],list[max_index]=list[max_index],list[i]
+#
+# print(*list)
+
+#--------------------------------------------------------------------------------
+
+#bubblesort
+
+import random
+list=[]
+for i in range(10):
+    list.append(random.randrange(0,50))
