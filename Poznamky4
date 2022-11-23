@@ -1,0 +1,54 @@
+#zoznam na steroidoch
+#sami si vytvarame indexy
+#{} or dict()
+#unikatne indexy
+#z nejakeho retazca vies vytvorit hash ale nie naopak - MD5, SHA1
+
+# ed={}
+# fd={'a':0,'b':5,'car':410,5:487,'c':[4,8,7]}
+# print(fd['b'])
+# print(fd['car'])
+# print(fd['c'])
+# print(fd['c'][-1])
+#
+# for key in fd:
+#     print(key)
+#     print(fd[key])
+#
+# print(fd)
+# print(*fd)
+
+#-------------------------------------------------------------------------------------
+
+# from string import ascii_lowercase
+#
+# entry=input('Give me sting: ')
+# counter={}
+# for i in entry:
+#     if i in ascii_lowercase:
+#         counter[i]=counter.get(i,0)+1
+#
+# print(counter)
+
+#---------------------------------------------------------------------------------------
+
+dictio={'item1':45.50,'item2':35,'item3':41.30,'item4':55,'item5':24}
+
+#zo sort ->du
+#sorted(dictio,)
+
+
+
+#bez sort -> sam triedim
+
+#1. max prvok v dictio
+
+for i in range(3):
+    index_max=list(dictio.keys())[0]
+    my_max=dictio[index_max]
+    for part in dictio:
+        if dictio[part]>my_max:
+            my_max=dictio[part]
+            index_max=part
+    print(my_max, index_max)
+    temp=dictio.pop(index_max)
