@@ -1,0 +1,80 @@
+Work with files
+
+#files are divide to 2 goups
+#1. binary
+#2. text files
+
+# obsah textoveho suboru znaky
+# jeden dlhy string
+# .py, .c, .txt,
+# enter-spatne lomitko \ plus znak
+
+# fr - file read
+# fr=open('way','r(read)' or 'w(write)', encoding='utf-8')
+# fw - file write
+#fw.write()
+
+#fr=open('way') # way can be relative or absolute
+
+# absolutna - cela - problem pri presune filu z pocitaca na pocitac ked neni rovnaka cesta
+# ex. C:/work/miso/data.txt
+#     C:\work\\miso\\data.txt
+
+# relativna - nemusi ist cez cely adresar
+# ex. 'miso/data.txt'
+# more important
+
+----------------------------------------------------------------------------------------------------
+
+File giver
+
+fr=open('data/data.txt','r',encoding='utf-8')
+fw=open('data/data.txt','r',encoding='utf-8')
+
+giantstring=fr.read()
+counter={}
+endofline=0
+
+for i in giantstring:
+    if i.isupper() or i.islower():
+        counter[i]=counter.get(i,0)+1
+    if i == '\n':
+        endofline+=1
+
+print(counter)
+print(endofline)
+
+# aky je priemerny pocet znakov v jednom riadku
+
+# kolko je tam medzier
+
+# vedel by si vytvorit novy data kde by si zapisal subor odzadu
+
+# mam subor a ako ho prechadzat
+
+# 1. sposob
+# for i in fr:
+#     print(i.strip())
+
+# 2. sposob - vytvorime velky string
+# giantstring=fr.read()
+# print(giantstring)
+
+# 3. sposob - ked riadky potrebuje spracovat inak
+# fl=fr.readline() # precita prvy a caka na zaciatku druheho
+# print(fl)
+# sl=fr.readline()
+# print(sl)
+#
+# for i in fr:
+#     print(i)
+
+# 4.sposob
+# list_line=fr.readlines()
+# print(list_line)
+
+#kucera maturujeme z informatiky - maturujeme v pythone
+
+# prehlad konzolovych uloh 2. a 4.
+
+
