@@ -1,0 +1,73 @@
+Texts
+
+name=input('Give me file name: ')
+
+
+def openfile(name='file3.txt'):
+    return open('texts/'+name,'r', encoding='UTF-8')
+fr=openfile(name)
+
+def process(fr):
+    lines=fr.readlines()
+    temp=lines[1].strip()
+    words=temp.split(' ')
+    print("'"+temp+"'")
+    print(words[0])
+    print(temp.count(' '))
+    counter=0
+    for i in temp:
+        if i==' ':
+            counter+=1
+    print(counter)
+process(fr)
+fr.seek(0)
+#shift+f6 - important zmeni vsetky premenne nazvy naraz danej premennej
+
+def width(fr):
+    maxlen=0
+    for i in fr:
+        if len(i)>maxlen:
+            maxlen=len(i)
+    return maxlen
+print(width(fr))
+
+
+#print(*fr)
+
+--------------------------------------------------------------------------------------
+Dictionary
+
+fr=open('texts/animals.txt','r', encoding='UTF-8')
+
+zoo={}
+zoo3={}
+for row in fr:
+    temp=row.strip().split(' ') #strip mi odstrani neviditelne znaky a vrati list a split vydvori string
+    zoo[temp[0]]=int(temp[1]) #temp[0] da meno zviera, je to index a int(temp[1]) mi da hodnotu indexu
+print(zoo)
+zoo2=sorted(zoo)
+for animal in zoo2:
+    zoo3[animal]=zoo[animal] #zoo3 ti najde zviera = zoo hodnotu da zvieratu z povodneho
+print(zoo3)
+average=0
+for aver in zoo3:
+    average+=zoo3[aver]
+average=average/len(zoo3)
+print(average)
+
+def heaviest(animals):
+    zoo={}
+    for line in animals:
+        temp=line.strip().split(' ')
+        zoo[temp[0]]=int(temp[1])
+    heavy=list(zoo.keys())[0] #len(zoo.keys) vracia objekt nemozeme z neho vybrat musim urobit list
+    for key in zoo.keys():
+        if zoo[key]>zoo[heavy]:
+            heavy=key
+    return(heavy,zoo[heavy])
+print(heaviest(fr))
+fr.seek(0)
+zoo={}
+# for ani in fr:
+#     temp=ani.strip().split(' ')
+#     zoo[temp[0]]=int(temp[1])
