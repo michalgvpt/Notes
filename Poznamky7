@@ -1,0 +1,16 @@
+Mnoziny
+
+j=set()
+m=set('kobylamamalybok')
+j.add('z')
+j.add('z') #stale len jedno z
+j.add('a')
+j.add(9)
+if 9 in j:
+    print('its there')
+else:
+    print('its not there')
+print(m)
+c=m.intersection(j)
+c=m.union(j)
+print(c)
