@@ -1,0 +1,35 @@
+Steneography encoder
+-------------------------------------------------------------------------
+from PIL import Image
+img=Image.open('dolphins.png')
+pixels=img.load()
+message='Hello Dudo'
+length=8
+
+def preparation(message:str)->list:
+    result=[]
+    for letter in message:
+        number=bin(ord(letter))[2::] #ide od druheho pismenka
+        while len(number)<length:
+            number='0'+number
+        #print(number)
+        for j in number:
+            result.append(int(j))
+    return result
+print(preparation(message))
+
+def shreder(message:str):
+    mesinbin=preparation(message)
+    for i in range(len(mesinbin)):
+        #mesinbin[i] toto tam ideme davat
+        width=img.size[0]
+        #height=img.size[1]
+        x=i%width #dudo klamal a nevedel
+        y=i//width #dudo klamal a nevedel
+        bluepixel=pixels[x,y][2]
+        newbluepixel=int(bin(bluepixel)[2:-1:] + str(mesinbin[i]),2) #od druheho po predposledny
+        newcolour=(pixels[x,y][0],pixels[x,y][1],newbluepixel)
+        pixels[x,y]=newcolour
+    img.save('dolphinmes.png')
+
+print(shreder(message))
