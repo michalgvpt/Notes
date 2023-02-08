@@ -1,0 +1,47 @@
+import random
+monsters=[[]]
+constant=5
+cage=[]
+
+def create_monster()->list:
+    temp=[]
+    for i in range(constant):
+        temp.append(random.randint(0,10))
+    return temp
+
+def iq_test(monster:list)->int:
+    return monster.count(1)
+
+def sex(monster1,monster2):
+    chance=[]
+    for i in range(constant):
+        mutindex=random.randrange(1,101)
+        if mutindex<=93:
+            chance1=random.randrange(1,101)
+            if chance1>50:
+                chance.append(monster1[i])
+            else:
+                chance.append(monster2[i])
+        else:
+            chance.append(random.randrange(0,10))
+    return chance
+
+def sort(cage): #bubblesort
+    for j in range(len(cage)):
+        for i in range(len(cage)-1):
+            if iq_test(cage[i])>iq_test(cage[i+1]):
+                cage[i],cage[i+1]=cage[i+1],cage[i]
+
+
+#def genocide(cage):
+
+
+for i in range(10):
+    cage.append(create_monster())
+
+for j in range(1000):
+    sort(cage)
+    cage=cage[len(cage)//2::]
+    for i in range(len(cage)):
+        cage.append(sex(cage[random.randrange(0,5)],cage[random.randrange(0,5)]))
+    print(cage[::-1])
