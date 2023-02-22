@@ -1,0 +1,60 @@
+from PIL import Image
+img=Image.open('cat.png')
+img2=Image.new('RGB',img.size,'white')
+#img2=Image.new('RGB',(img.size[0]*2,img.size[1]*2),'white')
+pixel_out=img.load()
+pixel_in=img2.load()
+
+#mirroring
+#for x in range(img.size[0]):
+#    for y in range(img.size[1]):
+#        pixel_in[img.size[0]-1-x,y]=pixel_out[x,y]
+#img2.show()
+
+#smalling
+#for x in range(0,img.size[0],2):
+#    for y in range(0,img.size[1],2):
+#        pixel_in[x//2,y//2]=pixel_out[x,y] #del //2 get comic effect
+#img2.show()
+
+#enlarging
+#for x in range(0,img.size[0]):
+#    for y in range(0,img.size[1]):
+#        pixel_in[2*x,2*y]=pixel_out[x,y]
+#        pixel_in[2*x+1,2*y+1]=pixel_out[x,y]
+#        pixel_in[2*x,2*y+1]=pixel_out[x,y]
+#        pixel_in[2*x+1,2*y]=pixel_out[x,y]
+#img2.show()
+
+#double mirroring
+for x in range(img.size[0]):
+    for y in range(img.size[1]):
+        pixel_in[x,y]=pixel_out[-1-x,-1-y]
+img2.show()
+
+#half mirroring
+for x in range(img.size[0]):
+    for y in range(img.size[1]):
+        pixel_in[x,y]=pixel_out[-1-x,-1-y]
+        pixel_in[img.size[0]-1-x,y]=pixel_out[x,y]
+img2.show()
+
+----------------------------------------------------------------------------------
+
+from PIL import Image, ImageOps
+img=Image.open('cat.png')
+img2=ImageOps.grayscale(img)
+fw=open('result.txt','w',encoding='UTF-8')
+pixels=img2.load()
+
+fw.write(str(img.size[0])+' '+str(img.size[1])+'\n')
+
+for y in range(img2.size[1]):
+    for x in range(img2.size[0]):
+        a=hex(pixels[x,y])[2::]
+        print(hex(pixels[x,y])[2::]) #hex prevedie cislo do 16 sustavy
+        if len(a)==1:
+            a='0'+a
+        fw.write(a+' ')
+    fw.write('\n')
+fw.close()
