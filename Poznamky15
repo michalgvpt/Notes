@@ -1,0 +1,35 @@
+from PIL import Image
+img=Image.open('dolphins.jpg')
+img=img.resize((200,100))
+const_density = 'Ñ@#W$9876543210?!abc;:+=-,._      '[::-1]
+fw=open('result.txt','w',encoding='UTF-8')
+pixels=img.load()
+def mapping(a,b,c,d,x):
+    return int((d*(x-a)+c*(b-x))/(b-a))
+
+for y in range(img.size[1]):
+    for x in range(img.size[0]):
+        avg=sum(pixels[x,y])/3
+        pos=mapping(0,255,0,len(const_density)-1,avg)
+        #print(const_density[pos])
+        fw.write(const_density[pos])
+    fw.write('\n')
+fw.close()
+
+---------------------------------------------------------------------
+
+from PIL import Image
+fr=open('kompresia_obrazka_1.txt','r')
+fl=fr.readline().split()
+img=Image.new('RGB',(int(fl[0]),int(fl[1])),'white')
+pixels=img.load()
+counter=0
+for line in fr:
+    for i in range(len(line)-1):
+        if line[i]=='1':
+            pixels[i,counter]=(255,255,255)
+        else:
+            pixels[i,counter]=(0,0,0)
+    counter+=1
+
+img.show()
