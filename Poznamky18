@@ -1,0 +1,72 @@
+import tkinter as tk
+window=tk.Tk()
+WIDTH=500
+HEIGHT=500
+x=0
+y=0
+canvas = tk.Canvas(window,width=WIDTH,height=HEIGHT,bg='white')
+canvas.pack()
+
+def clicker(e):
+    global x,y
+    list=canvas.find_overlapping(e.x,e.y,e.x+1,e.y+1)
+    if object1 in list:
+        x=e.x
+        y=e.y
+
+def mover(e):
+    global x,y
+    if x!=0 and y!=0:
+        x2=e.x
+        y2=e.y
+        vector=(x2-x,y2-y)
+        canvas.move(object1,vector[0],vector[1])
+        x,y=x2,y2
+
+def releaser(e):
+    global x,y
+    x,y=0,0
+
+object1=canvas.create_polygon(60,60,60,80,140,80,200,210,fill='turquoise')
+canvas.bind('<Button-1>',clicker)
+canvas.bind('<B1-Motion>',mover)
+canvas.bind('<ButtonRelease-1>',releaser)
+
+window.mainloop()
+
+-------------------------------------------------------------------------------------------
+
+import tkinter as tk
+import random
+window=tk.Tk()
+canvas=tk.Canvas(window,width=500,height=500,bg='white')
+canvas.pack()
+
+colours=['red','green','blue','yellow','orange']
+picker=random.choice(colours)
+width=300
+height=10
+ux=100
+uy=100
+wires=[]
+explosion=0
+
+def draw_wires():
+    global wires,explosion
+    for i in range(len(colours)):
+        wires.append(canvas.create_rectangle(ux,uy+height*i,ux+width,uy+height*(i+1),fill=colours[i]))
+    explosion=random.choice(wires)
+
+
+def pusher(e):
+
+
+
+
+
+draw_wires()
+canvas.bind('<Button-1>',pusher)
+
+window.mainloop()
+
+-----------------------------------------------------------------------------------------------------------------------
