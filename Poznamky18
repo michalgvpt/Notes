@@ -39,34 +39,36 @@ window.mainloop()
 import tkinter as tk
 import random
 window=tk.Tk()
+
 canvas=tk.Canvas(window,width=500,height=500,bg='white')
 canvas.pack()
-
 colours=['red','green','blue','yellow','orange']
-picker=random.choice(colours)
 width=300
 height=10
 ux=100
 uy=100
-wires=[]
 explosion=0
 
 def draw_wires():
-    global wires,explosion
+    global explosion
+    canvas.create_text(width/2,uy-200,text = 'Pyrotechnic', fill='Blue')
+    canvas.create_text(width/2,uy-190,text ='Choose one cable', fill = "Blue"
     for i in range(len(colours)):
-        wires.append(canvas.create_rectangle(ux,uy+height*i,ux+width,uy+height*(i+1),fill=colours[i]))
-    explosion=random.choice(wires)
-
+        canvas.create_rectangle(ux,uy+height*i,ux+width,uy+height*(i+1),fill=colours[i]))
+    explosion=random.choice(colours)
 
 def pusher(e):
-
-
-
+    overlap = canvas.find_overlapping(e.x,e.y,e.x+1,e.y+1)
+    colour = canvas.itemcget(overlap,'fill')
+    if colour == explosion:
+        string = canvas.create_text(width/2,uy+50,text ='You won!!!!',fill='black')
+        string.pack()
+    else:
+        canvas.delete('all')
 
 
 draw_wires()
 canvas.bind('<Button-1>',pusher)
-
 window.mainloop()
 
 -----------------------------------------------------------------------------------------------------------------------
