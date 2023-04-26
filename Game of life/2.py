@@ -1,13 +1,16 @@
-#Better than game of life v.0.1, easier I guess (For The Eyes)
-#import tkinter as tk
-#win = tk.Tk()
-file = open("input.txt","r")
+import tkinter as tk
+window=tk.Tk()
+WIDTH=1000
+HEIGHT=1000
+canvas = tk.Canvas(width=WIDTH,height=HEIGHT,bg="white")
+canvas.pack()
+file = open('input.txt',"r")
 
 text = file.readline()
 width, height = text.split(" ")
 width = int(width)
 height = int(height)
-
+listcell=[]
 
 def create2Dmap() ->list:
     map = []
@@ -24,35 +27,32 @@ def create2Dmap() ->list:
     file.readline()
     return map
 
-
 def FindNeighbours(x,y,map):
     count = 0
 
-    if x-1>=0 and y-1>=0 and map[y-1][x-1] == 1:
-        count +=1
-    if y-1>=0 and map[y-1][x] == 1:
-        count +=1
-    if y-1>=0 and x+1<= width-1 and map[y-1][x+1] ==1:
-        count +=1
-    if x-1>=0 and map[y][x-1] == 1:
-        count +=1
-    if x+1<=width-1 and map[y][x+1] ==1:
-        count +=1
-    if y+1<=height-1 and x-1>=0 and map[y+1][x-1]==1:
-        count+=1
-    if y+1<=height-1 and map[y+1][x] ==1:
-        count+=1
-    if y+1<=height-1 and x+1<=width-1 and map[y+1][x+1] == 1:
-        count+=1
+    if x<width-1 and map[y][x+1] == 1:
+        count += 1
+    if x<width-1 and y<height-1 and map[y+1][x+1] == 1:
+        count += 1
+    if y<height-1 and map[y+1][x] == 1:
+        count += 1
+    if x>0 and y<height-1 and map[y+1][x-1] == 1:
+        count += 1
+    if x>0 and map[y][x-1] == 1:
+        count += 1
+    if x>0 and y>0 and map[y-1][x-1] == 1:
+        count += 1
+    if y>0 and map[y-1][x] == 1:
+        count += 1
+    if x<width-1 and y>0 and map[y-1][x+1] == 1:
+        count += 1
     return count
 
 #teraz sa pozrem do mapy budem ju prechadzat pre kazde policko sa spytam kolko mas priatelov
 # prechadzam cyklus v cykle vrat mi pocet priatelov pri kazdom ak si 2 ci co tak zdochnes ak nieco ine tak zijes ...?
 
 oldmap = create2Dmap()
-
 newmap = create2Dmap()
-
 
 def rewrite(oldmap,newmap):
     for y in range(height):
@@ -70,20 +70,32 @@ def rewrite(oldmap,newmap):
 
     return newmap
 
+def drawGrid(ws=30):
+    count=HEIGHT//ws
+    for i in range(count):
+        canvas.create_line(0,i*ws,WIDTH,i*ws)
+    count=WIDTH//ws
+    for i in range(count):
+        canvas.create_line(i*ws,0,i*ws,HEIGHT)
 
+def drawCells(oldmap,listcell,ws):
+    canvas.delete('all')
+    drawGrid(ws)
+    for y in range(height):
+        for x in range(width):
+            if oldmap[y][x]==1:
+                listcell.append(canvas.create_oval(x*ws,y*ws,(x+1)*ws,(y+1)*ws,fill='blue'))
 
-#canvas = tk.Canvas(win,width*100,height*100,bg="white")
-#canvas.pack()
-#oldmap = rewrite(oldmap,newmap)
-#def mapcreation(oldmap):
-    #for y in range(0,height*100,100):
-        #for x in range(0,width*100,100):
-while True:
-    print(oldmap)
-    newmap = rewrite(oldmap,newmap)
-    oldmap = newmap.copy()
-    newmap = create2Dmap()
-    #print stary matrix
-    #vypocitas novy matrix
-    #novy hodis do stareho - pomocou dvoch cyklov .copy() nie pretoze
-    #novy musim vynulovat
+def generations():
+    global oldmap,newmap
+    drawCells(oldmap,listcell,30)
+    rewrite(oldmap,newmap)
+    for y in range(height):
+        for x in range(width):
+            oldmap[y][x]=newmap[y][x]
+    newmap=create2Dmap()
+    canvas.after(100,generations)
+
+drawGrid()
+generations()
+window.mainloop()
