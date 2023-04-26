@@ -32,7 +32,7 @@ def FindNeighbours(x,y,map):
         count +=1
     if y-1>=0 and map[y-1][x] == 1:
         count +=1
-    if y-1>=0 and x+1<= height-1 and map[y-1][x+1] ==1:
+    if y-1>=0 and x+1<= width-1 and map[y-1][x+1] ==1:
         count +=1
     if x-1>=0 and map[y][x-1] == 1:
         count +=1
