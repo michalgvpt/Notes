@@ -1,31 +1,37 @@
 import tkinter as tk
 window=tk.Tk()
-WIDTH=1000
-HEIGHT=1000
-canvas = tk.Canvas(width=WIDTH,height=HEIGHT,bg="white")
+W=1000
+H=750
+canvas = tk.Canvas(width=W,height=H,bg="white")
 canvas.pack()
-file = open('input.txt',"r")
 
+file = open('Game of life/imput.txt',"r")
 text = file.readline()
-width, height = text.split(" ")
+width, height = text.split(' ')
 width = int(width)
 height = int(height)
-listcell=[]
+list_cell=[]
+size=20
 
-def create2Dmap() ->list:
+def create2Dmap(width, height):
     map = []
     temp = []
+    for y in range(height):
+        for x in range(width):
+            temp.append(0)
+        map.append(temp)
+        temp = []
+    return map
+
+def processfile(map):
+    x, y = 0, 0
     for row in file:
         for char in row:
-            if char == "1":
-                temp.append(1)
-            if char == "0":
-                temp.append(0)
-        map.append(temp)
-        temp = [ ]
-    file.seek(0)
-    file.readline()
-    return map
+            if char == '1':
+                map[y][x] = 1
+            x += 1
+        y += 1
+        x = 0
 
 def FindNeighbours(x,y,map):
     count = 0
@@ -48,54 +54,73 @@ def FindNeighbours(x,y,map):
         count += 1
     return count
 
-#teraz sa pozrem do mapy budem ju prechadzat pre kazde policko sa spytam kolko mas priatelov
-# prechadzam cyklus v cykle vrat mi pocet priatelov pri kazdom ak si 2 ci co tak zdochnes ak nieco ine tak zijes ...?
-
-oldmap = create2Dmap()
-newmap = create2Dmap()
-
-def rewrite(oldmap,newmap):
-    for y in range(height):
-        for x in range(width):
-            neighbours = FindNeighbours(x,y,oldmap)
-            if oldmap[y][x] == 1:
-                if neighbours<2:
-                    newmap[y][x] = 0
-                elif neighbours ==2 or neighbours ==3:
+def rewrite(map):
+    global oldmap
+    x = 0
+    y = 0
+    newmap = create2Dmap(width, height)
+    for row in map:
+        for char in row:
+            neighbours = FindNeighbours(x, y, oldmap)
+            if map[y][x] == 1:
+                if neighbours == 2 or neighbours == 3:
                     newmap[y][x] = 1
-                elif neighbours >2:
+                else:
                     newmap[y][x] = 0
-            if oldmap[y][x] == 0 and neighbours ==3:
-                newmap[y][x]= 1
-
+            elif map[y][x] == 0 and neighbours == 3:
+                newmap[y][x] = 1
+            else:
+                newmap[y][x] = 0
+            x += 1
+        y += 1
+        x = 0
+    oldmap = newmap
     return newmap
 
-def drawGrid(ws=30):
-    count=HEIGHT//ws
-    for i in range(count):
-        canvas.create_line(0,i*ws,WIDTH,i*ws)
-    count=WIDTH//ws
-    for i in range(count):
-        canvas.create_line(i*ws,0,i*ws,HEIGHT)
+oldmap = create2Dmap(width, height)
+newmap = create2Dmap(width, height)
+processfile(oldmap)
 
-def drawCells(oldmap,listcell,ws):
+def drawGrid(ws=size):
+    count=H//ws
+    for i in range(count):
+        canvas.create_line(0,i*ws,W,i*ws)
+    count=W//ws
+    for i in range(count):
+        canvas.create_line(i*ws,0,i*ws,H)
+
+def drawCells(oldmap,list_cell,ws = size):
     canvas.delete('all')
-    drawGrid(ws)
+    drawGrid()
+    list_cell = []
     for y in range(height):
         for x in range(width):
             if oldmap[y][x]==1:
-                listcell.append(canvas.create_oval(x*ws,y*ws,(x+1)*ws,(y+1)*ws,fill='blue'))
+                list_cell.append(canvas.create_oval(x*ws,y*ws,(x+1)*ws,(y+1)*ws,fill='blue'))
 
-def generations():
-    global oldmap,newmap
-    drawCells(oldmap,listcell,30)
-    rewrite(oldmap,newmap)
-    for y in range(height):
-        for x in range(width):
-            oldmap[y][x]=newmap[y][x]
-    newmap=create2Dmap()
-    canvas.after(100,generations)
+# def generations():
+#     global oldmap
+#     drawCells(oldmap,list_cell)
+#     rewrite(oldmap)
+#     canvas.after(100,generations)
+
+def autoGen():
+    global oldmap
+    drawCells(oldmap, list_cell)
+    rewrite(oldmap)
+    canvas.after(100, autoGen)
+
+def nextGen():
+    global oldmap
+    drawCells(oldmap, list_cell)
+    rewrite(oldmap)
+
+nextGen()
+auto_button = tk.Button(window, text='Auto', command=autoGen)
+auto_button.pack()
+step_button = tk.Button(window, text='Next step', command=nextGen)
+step_button.pack()
 
 drawGrid()
-generations()
+#generations()
 window.mainloop()
