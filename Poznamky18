@@ -44,17 +44,17 @@ canvas=tk.Canvas(window,width=500,height=500,bg='white')
 canvas.pack()
 colours=['red','green','blue','yellow','orange']
 width=300
-height=10
-ux=100
-uy=100
+height=15
+ux=20
+uy=250
 explosion=0
 
 def draw_wires():
     global explosion
     canvas.create_text(width/2,uy-200,text = 'Pyrotechnic', fill='Blue')
-    canvas.create_text(width/2,uy-190,text ='Choose one cable', fill = "Blue"
-    for i in range(len(colours)):
-        canvas.create_rectangle(ux,uy+height*i,ux+width,uy+height*(i+1),fill=colours[i]))
+    canvas.create_text(width/2,uy-190,text ='Choose one cable', fill = "Blue")
+    for i in range(5):
+        canvas.create_rectangle(ux,uy+height*i,ux+width,uy+height*(i+1),fill=colours[i])
     explosion=random.choice(colours)
 
 def pusher(e):
