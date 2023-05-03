@@ -1,0 +1,34 @@
+import tkinter as tk
+import random
+window=tk.Tk()
+W=500
+H=500
+bgimg= tk.PhotoImage(file = "background.png")
+canvas = tk.Canvas(window,width=W,height=H,bg=bgimg)
+canvas.pack()
+
+c=15
+ball = canvas.create_oval(200,10,200+c,10+c, fill='blue')
+tramp = canvas.create_rectangle(200,450,300,450,fill='black')
+d=2
+vector=[1*d,1*d]
+
+def location():
+    choose=random.randint(-2,2)
+    global vector
+    coordinates=canvas.coords(ball)
+    print(coordinates[2],coordinates[3])
+    if coordinates[2]>=W:
+        vector=[-1*d,1*d+choose]
+    elif coordinates[0]<=0:
+        vector=[1*d,-1*d+choose]
+    elif coordinates[3]>=H:
+        vector=[-1*d,-1*d+choose]
+    elif coordinates[1]<=0:
+        vector=[1*d,1*d+choose]
+    return vector
+
+def movement():
+    vector=location()
+    canvas.move(ball,vector[0],vector[1])
+    canvas.after(10,movement)
