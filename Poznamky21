@@ -1,0 +1,96 @@
+import tkinter as tk
+from random import randrange
+root=tk.Tk()
+width=500
+height=500
+ws = 10
+rec_w = 25
+bricks=[]
+brick_w=50
+brick_h=20
+brick_collum=10
+brick_row=5
+#bgimg= tk.PhotoImage(file = "background.png")
+canvas = tk.Canvas(root,width=width,height=height,bg='white')
+canvas.pack()
+
+def destroy_brick():
+    global movement
+    coord_ball=canvas.coords(ball)
+    items_list=canvas.find_overlapping(coord_ball[0],coord_ball[1],coord_ball[2],coord_ball[3])
+    for i in items_list:
+        if i in bricks:
+            bricks.remove(i)
+            canvas.delete(i)
+            movement=[movement[0]* -1,movement[1]* -1]
+def ball_move():
+    global ball, movement, desk
+    canvas.move(ball, movement[0], movement[1])
+    destroy_brick()
+    pos = canvas.coords(ball)
+    desk_pos = canvas.coords(desk)
+    overlap = canvas.find_overlapping(desk_pos[0], desk_pos[1], desk_pos[2], desk_pos[3])
+    if pos[2] >= width:     # prava hranica
+        # movement = [-1, 1]
+        movement = [movement[0] * -1, movement[1]]
+    elif pos[3] >= height:  # spodna hranica
+        canvas.delete('all')
+        text = canvas.create_text(width//2, height//2, text='YOU LOST')
+    elif pos[0] <= 0:       # lava hranica
+        # movement = [1, -1]
+        movement = [movement[0] * -1, movement[1]]
+    elif pos[1] <= 0:       # vrchna hranica
+        # movement = [1, 1]
+        movement = [movement[0], movement[1] * -1]
+    elif ball in overlap:
+        # movement = [-1, -1]
+        movement = bounce(pos, desk_pos)
+    canvas.after(4, ball_move)
+
+def mover(e):
+    global x
+    x2 = e.x
+    if x != 0:
+        mouse = x2-x
+        canvas.move(desk, mouse, 0)
+        x= e.x
+
+def bounce(ball_pos, rec_pos):
+    ball_pos = (ball_pos[0] + ball_pos[2])//2
+    rec_middle = (rec_pos[0] + rec_pos[2])//2
+    ball_to_rec = ball_pos - rec_middle
+    return [ball_to_rec//(rec_w//3), -1]    # rec_w//3 => vector x je 0-3
+
+def starter(e):
+    global x, y
+    lis = canvas.find_overlapping(e.x, e.y, e.x+1, e.y+1)
+    if desk in lis:
+        x = e.x
+        y = e.y
+        ball_move()
+        canvas.delete(start_text)
+
+colours=['green','turquoise','blue','yellow','red']
+
+def prepare_bricks():
+    for y in range(brick_row):
+        for x in range(brick_collum):
+            bricks.append(canvas.create_rectangle(x*brick_w,y*brick_h,x*brick_w+brick_w,y*brick_h+brick_h, fill=colours[y%5], width=5, outline='white'))
+
+def move_left(e):
+    canvas.move(desk, -4, 0)
+
+
+def move_right(e):
+    canvas.move(desk, 4, 0)
+
+movement = [0,1]
+ball = canvas.create_oval(width//2 - ws, height//2 - ws, width//2 + ws, height//2 + ws, fill = 'red')
+desk = canvas.create_rectangle(width//2 - rec_w, height - 25, width//2 + rec_w, height - 20, fill= 'black')
+start_text = canvas.create_text(width//2, height//2 - 50, text='CLICK ON RECTANGLE TO START\nplay on fullscreen\nuse mouse to move')
+prepare_bricks()
+canvas.bind('<Button-1>', starter)
+canvas.bind('<Motion>',mover)
+#root.bind('<Left>',move_left)
+#root.bind('<Right>',move_right)
+root.mainloop()
