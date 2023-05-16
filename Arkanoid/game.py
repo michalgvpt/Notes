@@ -1,12 +1,16 @@
 import tkinter as tk 
+from tkinter import ttk
 import random
 from PIL import ImageTk, Image
 root=tk.Tk()
+root.title('Arkanoid')
 width=500
-height=500
+height=600
+root.geometry('500x600')
 movement = [0,1]
 ws = 10
 rec_w = 25
+labels = []
 bricks=[]
 brick_w=50
 brick_h=20
@@ -19,17 +23,6 @@ bi_image=tk.PhotoImage(file='Arkanoid/background.png')
 canvas.create_image(0,0, image=bi_image, anchor=tk.NW)
 ball = canvas.create_oval(width//2 - ws, height//2 - ws, width//2 + ws, height//2 + ws, fill = 'red')
 desk = canvas.create_rectangle(width//2 - rec_w, height - 25, width//2 + rec_w, height - 20, fill= 'dark blue')
-
-def destroy_brick():
-    global movement
-    coord_ball=canvas.coords(ball)
-    items_list=canvas.find_overlapping(coord_ball[0],coord_ball[1],coord_ball[2],coord_ball[3])
-    for i in items_list:
-        if i in bricks:
-            bricks.remove(i)
-            canvas.delete(i)
-            movement=[movement[0]* -1,movement[1]* -1]
-            break
 
 def ball_move():
     global ball, movement, desk
@@ -68,10 +61,23 @@ def prepare_bricks():
         for x in range(brick_collum):
             bricks.append(canvas.create_rectangle(x*brick_w,y*brick_h,x*brick_w+brick_w,y*brick_h+brick_h, fill='grey', width=5, outline='black'))
 
+def destroy_brick():
+    global movement
+    coord_ball=canvas.coords(ball)
+    items_list=canvas.find_overlapping(coord_ball[0],coord_ball[1],coord_ball[2],coord_ball[3])
+    for i in items_list:
+        if i in bricks:
+            bricks.remove(i)
+            canvas.delete(i)
+            movement=[movement[0]* -1,movement[1]* -1]
+            break
+
 def victory():
     if len(bricks)==0:
         canvas.delete('all')
         text = canvas.create_text(width//2, height//2, text='You Won')
+    else:
+        return
 
 def move_left(e):
     canvas.move(desk, -5, 0)
@@ -85,11 +91,10 @@ def hardcore_mode():
 def easy_mode():
     canvas.itemconfig(desk, fill='yellow') 
 
-button1=tk.Button(root, text='Hardcore Mode', command=hardcore_mode)
-button1.pack()
-button2=tk.Button(root, text='Easy Mode', command=easy_mode)
-button2.pack()
-victory()
+button1=ttk.Button(root, text='Hardcore Mode', command=hardcore_mode)
+button1.place(x=50, y=570)
+button2=ttk.Button(root, text='Easy Mode', command=easy_mode)
+button2.place(x=380, y=570)
 ball_move()
 prepare_bricks()
 root.bind('<Left>',move_left)
